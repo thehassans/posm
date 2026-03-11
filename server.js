@@ -55,15 +55,13 @@ process.on('uncaughtException', (error) => {
     console.error('Uncaught exception:', error);
 });
 
-if (require.main === module) {
-    const server = app.listen(PORT, () => {
-        console.log(`✅ POS System running at ${APP_URL}`);
-        console.log('   Login: admin / admin123');
-    });
+const server = app.listen(PORT, () => {
+    console.log(`✅ POS System running at ${APP_URL}`);
+    console.log('   Login: admin / admin123');
+});
 
-    server.on('error', (error) => {
-        console.error('Server startup error:', error);
-    });
-}
+server.on('error', (error) => {
+    console.error('Server startup error:', error);
+});
 
 module.exports = app;
