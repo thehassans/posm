@@ -5,3 +5,4 @@ node_modules/
 log.txt
 db/*.db-shm
 db/*.db-wal
+server copy.js

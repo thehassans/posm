@@ -4,8 +4,12 @@
     "description": "Point of Sale System",
     "main": "server.js",
     "scripts": {
+        "build": "node -e \"console.log('No build step required')\"",
         "start": "node server.js",
         "dev": "node server.js"
+    },
+    "engines": {
+        "node": "20.x || 22.x"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
