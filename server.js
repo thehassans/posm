@@ -44,6 +44,8 @@ app.get('/dashboard', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 4000;
+const APP_URL = process.env.APP_URL || `http://localhost:${PORT}`;
+app.locals.appUrl = APP_URL;
 
 process.on('unhandledRejection', (error) => {
     console.error('Unhandled promise rejection:', error);
@@ -55,7 +57,7 @@ process.on('uncaughtException', (error) => {
 
 if (require.main === module) {
     const server = app.listen(PORT, () => {
-        console.log(`✅ POS System running at http://localhost:${PORT}`);
+        console.log(`✅ POS System running at ${APP_URL}`);
         console.log('   Login: admin / admin123');
     });
 
