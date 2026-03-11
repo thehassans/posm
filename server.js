@@ -6,6 +6,7 @@ const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 const sessionMaxAgeMs = Number(process.env.SESSION_MAX_AGE_MS || 8 * 60 * 60 * 1000);
 
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -43,8 +44,24 @@ app.get('/dashboard', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`✅ POS System running at http://localhost:${PORT}`);
-    console.log('   Login: admin / admin123');
+
+process.on('unhandledRejection', (error) => {
+    console.error('Unhandled promise rejection:', error);
 });
-// export default app;
+
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught exception:', error);
+});
+
+if (require.main === module) {
+    const server = app.listen(PORT, () => {
+        console.log(`✅ POS System running at http://localhost:${PORT}`);
+        console.log('   Login: admin / admin123');
+    });
+
+    server.on('error', (error) => {
+        console.error('Server startup error:', error);
+    });
+}
+
+module.exports = app;
