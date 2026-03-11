@@ -1,0 +1,7 @@
+.env
+.env.*
+!.env.example
+node_modules/
+log.txt
+db/*.db-shm
+db/*.db-wal

@@ -3,15 +3,22 @@ const session = require('express-session');
 const path = require('path');
 
 const app = express();
+const isProduction = process.env.NODE_ENV === 'production';
+const sessionMaxAgeMs = Number(process.env.SESSION_MAX_AGE_MS || 8 * 60 * 60 * 1000);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: 'pos-super-secret-key-2024',
+    secret: process.env.SESSION_SECRET || 'pos-super-secret-key-2024',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 8 * 60 * 60 * 1000 } // 8 hours
+    cookie: {
+        maxAge: sessionMaxAgeMs,
+        httpOnly: true,
+        sameSite: process.env.SESSION_COOKIE_SAME_SITE || 'lax',
+        secure: process.env.SESSION_COOKIE_SECURE === 'true' || isProduction
+    }
 }));
 
 // API Routes
